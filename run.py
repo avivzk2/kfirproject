@@ -48,6 +48,31 @@ MIN_ALPHA = 0.00025
 data = read_csv('imdb.csv')
 model = Doc2Vec.load('trained.model')
 
+
+import random
+
+for i in range(10):
+    rid = random.randint(0, len(data))
+    query = data[rid][0]
+    vec = model.infer_vector(tokenizer(query))
+    docs = model.docvecs.most_similar([vec], topn=5)
+
+    print('=' * 100)
+    print("QUERY: (id={})".format(rid))
+    print(query)
+    print('-' * 100)
+    for j, doc in enumerate(docs):
+        if str(rid) == doc[0]:
+            continue
+        print("RESULT {}".format(j))
+        print(doc)
+        print(data[int(doc[0])])
+        print('-' * 100)
+
+exit(0)
+
+
+
 while True:
 
     print("=" * 100)
